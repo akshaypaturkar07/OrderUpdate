@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Comparator;
 import java.util.Objects;
 
 @Entity
@@ -15,22 +14,23 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Table(name = "orders")
-public class OrderDetails implements Serializable, Comparator<OrderDetails> {
+public class OrderDetails implements Serializable {
     @Id
     @Column(name = "orderid")
     private int orderid;
 
 
-    @Override
-    public int compare(OrderDetails o1, OrderDetails o2) {
-        if (o1.vendor.getVendorid() > o2.vendor.getVendorid()) {
-            return -1;
-        } else if (o1.vendor.getVendorid() < o2.vendor.getVendorid()) {
-            return 1;
-        } else
-            return 0;
+    @ManyToOne
+    @JoinColumn(name = "vendorid")
+    private Vendor vendor;
 
-    }
+    @Column(name = "orderamount")
+    private int orderamount;
+    @Column(name = "orderdate")
+    private Date orderdate;
+    @Column(name = "dueperiod")
+    private int dueperiod;
+
 
     @Override
     public boolean equals(Object o) {
@@ -44,16 +44,5 @@ public class OrderDetails implements Serializable, Comparator<OrderDetails> {
     public int hashCode() {
         return Objects.hash(getVendor());
     }
-
-    @ManyToOne
-    @JoinColumn(name = "vendorid")
-    private Vendor vendor;
-
-    @Column(name = "orderamount")
-    private int orderamount;
-    @Column(name = "orderdate")
-    private Date orderdate;
-    @Column(name = "dueperiod")
-    private int dueperiod;
 
 }

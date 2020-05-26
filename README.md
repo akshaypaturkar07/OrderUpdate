@@ -25,3 +25,11 @@ OrderId | VendorId |OrderAmount |orderDate |duePeriod
   
   As per above order table , if orders are sorted by vendorID  and resulting orderAmounts will be negative value upon addition of all order with same vendor id .
   Update orderDate with last added orderAmount orderdate with addition of duePeriod.
+
+Rest API call - 
+
+http://localhost:9090/updateOrders
+
+O/P:
+ Order Updated Successfully .. ! 
+ {"orderid":1,"vendor":{"vendorid":1,"vendorname":"amazon"},"orderamount":100,"orderdate":1526495400000,"dueperiod":30}{"orderid":3,"vendor":{"vendorid":1,"vendorname":"amazon"},"orderamount":100,"orderdate":1526063400000,"dueperiod":25}

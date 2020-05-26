@@ -1,5 +1,6 @@
 package com.mydomain.OrderDetails.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="vendor")
+@Table(name = "vendor")
 public class Vendor implements Serializable {
 
     @Id
@@ -20,7 +21,10 @@ public class Vendor implements Serializable {
     private int vendorid;
     @Column(name = "vendorname")
     private String vendorname;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "orderid")
     private Set<OrderDetails> orderDetails;
+
+
 }
