@@ -27,4 +27,8 @@ public class Vendor implements Serializable {
     private Set<OrderDetails> orderDetails;
 
 
+    public Vendor(int vendorid, String vendorname) {
+        this.vendorid = vendorid;
+        this.vendorname = vendorname;
+    }
 }

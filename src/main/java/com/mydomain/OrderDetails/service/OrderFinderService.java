@@ -1,5 +1,6 @@
 package com.mydomain.OrderDetails.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mydomain.OrderDetails.dao.OrderDetailsRepository;
 import com.mydomain.OrderDetails.entity.OrderDetails;
@@ -15,12 +16,9 @@ import java.util.List;
 @Service
 public class OrderFinderService {
     Logger logger = LoggerFactory.getLogger(OrderFinderService.class);
+    @Autowired
     private OrderDetailsRepository orderDetailsRepository;
 
-    @Autowired
-    public OrderFinderService(OrderDetailsRepository orderDetailsRepository) {
-        this.orderDetailsRepository = orderDetailsRepository;
-    }
 
     public String updateOrders() {
         String recordsUpdated = null;
@@ -59,9 +57,9 @@ public class OrderFinderService {
         });
     }
 
-    private String updateOrderDates(List<OrderDetails> orderDetailsList, int index, Date date) throws Exception {
+    private String updateOrderDates(List<OrderDetails> orderDetailsList, int index, Date date) throws JsonProcessingException {
         Calendar c = Calendar.getInstance();
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < index; i++) {
             c.setTime(date);

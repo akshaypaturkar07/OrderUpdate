@@ -31,6 +31,14 @@ public class OrderDetails implements Serializable {
     @Column(name = "dueperiod")
     private int dueperiod;
 
+    public OrderDetails(int orderid, Vendor vendor, int orderamount, Date orderdate, int dueperiod) {
+        this.orderid = orderid;
+        this.vendor = vendor;
+        this.orderamount = orderamount;
+        this.orderdate = orderdate;
+        this.dueperiod = dueperiod;
+    }
+
 
     @Override
     public boolean equals(Object o) {
