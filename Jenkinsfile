@@ -1,5 +1,5 @@
 node('master'){
-   def mvnhome = tool name:'maven-3' type='maven'
+   def mvnhome = tool name:'maven-3' , type='maven'
    stage('ENV vars'){
        sh 'java -version'
       sh "${mvnhome}/bin/mvn -version"
