@@ -1,36 +1,38 @@
 node('master'){
+   def mvnhome = tool name:'maven-3' , type:'maven'
    stage('ENV vars'){
        sh 'java -version'
-       sh 'mvn -version'
+      sh "${mvnhome}/bin/mvn -version"
 
    }
    stage('Checkout Code'){
-       sh 'git clone https://github.com/akshaypaturkar07/OrderUpdate.git'
+       git 'https://github.com/akshaypaturkar07/OrderUpdate.git'
    }
-
    stage('clean'){
-        sh 'git clean -df'
+        sh "${mvnhome}/bin/mvn clean"
    }
 
    stage('compile code'){
-         sh 'mvn clean'
+         sh "${mvnhome}/bin/mvn compile"
    }
 
    stage("Unit Test"){
-       sh 'mvn test'
+       sh "${mvnhome}/bin/mvn test"
    }
 
    stage('Build Docker Image'){
-        sh 'mvn package'
+        sh "${mvnhome}/bin/mvn package"
    }
 
    stage('Push Docker Image'){
-        sh 'mvn deploy'
+        sh "${mvnhome}/bin/mvn deploy"
    }
 
    stage('Run Application'){
 
    }
-
+   
+   
+   
 
 }
