@@ -8,13 +8,12 @@ node('master'){
    stage('Checkout Code'){
        git 'https://github.com/akshaypaturkar07/OrderUpdate.git'
    }
-   dir('/var/jenkins_home/workspace/OrderDetails/OrderUpdate'){
-         stage('clean'){
-        sh 'git clean -df'
+   stage('clean'){
+        sh "${mvnhome}/bin/mvn clean"
    }
 
    stage('compile code'){
-         sh "${mvnhome}/bin/mvn clean"
+         sh "${mvnhome}/bin/mvn compile"
    }
 
    stage("Unit Test"){
@@ -33,7 +32,7 @@ node('master'){
 
    }
    
-   }
+   
    
 
 }
