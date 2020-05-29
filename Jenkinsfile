@@ -1,7 +1,7 @@
 node('master'){
    stage('ENV vars'){
        sh 'java -version'
-       //sh 'mvn -version'
+       sh 'mvn -version'
 
    }
    stage('Checkout Code'){
