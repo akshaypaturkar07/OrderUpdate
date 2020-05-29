@@ -14,19 +14,19 @@ node('master'){
    }
 
    stage('compile code'){
-         sh 'mvn clean'
+         sh "${mvnhome}/bin/mvn clean"
    }
 
    stage("Unit Test"){
-       sh 'mvn test'
+       sh "${mvnhome}/bin/mvn test"
    }
 
    stage('Build Docker Image'){
-        sh 'mvn package'
+        sh "${mvnhome}/bin/mvn package"
    }
 
    stage('Push Docker Image'){
-        sh 'mvn deploy'
+        sh "${mvnhome}/bin/mvn deploy"
    }
 
    stage('Run Application'){
