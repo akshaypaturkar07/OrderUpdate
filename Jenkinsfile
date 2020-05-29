@@ -5,7 +5,7 @@ node('master'){
 
    }
    stage('Checkout Code'){
-       sh 'git clone https://github.com/akshaypaturkar07/OrderUpdate.git'
+       git 'https://github.com/akshaypaturkar07/OrderUpdate.git'
    }
    dir('/var/jenkins_home/workspace/OrderDetails/OrderUpdate'){
          stage('clean'){
