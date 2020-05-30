@@ -33,3 +33,6 @@ http://localhost:9090/updateOrders
 O/P:
  Order Updated Successfully .. ! 
  {"orderid":1,"vendor":{"vendorid":1,"vendorname":"amazon"},"orderamount":100,"orderdate":1526495400000,"dueperiod":30}{"orderid":3,"vendor":{"vendorid":1,"vendorname":"amazon"},"orderamount":100,"orderdate":1526063400000,"dueperiod":25}
+ 
+ mvn flyway:clean
+ baseline, clean, info, migrate, repair, undo, validate 

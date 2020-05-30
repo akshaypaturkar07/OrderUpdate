@@ -16,6 +16,13 @@ node('master'){
          sh "${mvnhome}/bin/mvn compile"
    }
 
+   stage('Flyway Clean'){
+        sh "${mvnhome}/bin/mvn flyway:clean"
+   }
+
+   stage('Flyway Migrate'){
+        sh "${mvnhome}/bin/mvn flyway:migrate"
+   }
    stage("Unit Test"){
        sh "${mvnhome}/bin/mvn test"
    }

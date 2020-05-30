@@ -11,7 +11,7 @@
     <groupId>com.mydomain</groupId>
     <artifactId>OrderDetails</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>OrderDetails</name>
     <description>This is implementation to update order details based on order amount per vendor , if order amount goes
         negative update date to negative value date
@@ -19,6 +19,10 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <flyway.version>6.4.3</flyway.version>
+        <database.url>jdbc:mysql://localhost:1521/practice</database.url>
+        <database.user>root</database.user>
+        <database.password>V@ndana160791</database.password>
     </properties>
 
     <dependencies>
@@ -63,6 +67,7 @@
             <optional>true</optional>
         </dependency>
 
+
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -75,6 +80,12 @@
             <artifactId>spock-spring</artifactId>
             <version>1.2-groovy-2.4</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -132,6 +143,27 @@
                         <include>**/*Spec.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <sqlMigrationSeparator>__</sqlMigrationSeparator>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                    <url>${database.url}</url>
+                    <user>${database.user}</user>
+                    <password>${database.password}</password>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.38</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
