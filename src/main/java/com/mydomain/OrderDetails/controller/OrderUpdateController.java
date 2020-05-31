@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/updateOrders")
 public class OrderUpdateController {
     Logger logger = LoggerFactory.getLogger(OrderUpdateController.class);
+
     @Autowired
+    public OrderUpdateController(OrderFinderService orderFinderService) {
+        this.orderFinderService = orderFinderService;
+    }
+
     private OrderFinderService orderFinderService;
 
 

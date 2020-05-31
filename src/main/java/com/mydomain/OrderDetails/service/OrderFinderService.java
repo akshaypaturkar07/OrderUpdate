@@ -16,7 +16,12 @@ import java.util.List;
 @Service
 public class OrderFinderService {
     Logger logger = LoggerFactory.getLogger(OrderFinderService.class);
+
     @Autowired
+    public OrderFinderService(OrderDetailsRepository orderDetailsRepository) {
+        this.orderDetailsRepository = orderDetailsRepository;
+    }
+
     private OrderDetailsRepository orderDetailsRepository;
 
 
@@ -70,7 +75,7 @@ public class OrderFinderService {
             stringBuffer.append(mapper.writeValueAsString(orderDetailsList.get(i)));
             logger.info(stringBuffer.toString());
         }
-        return stringBuffer.toString();
+        return "Success " + stringBuffer.toString();
 
     }
 }

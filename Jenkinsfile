@@ -15,6 +15,13 @@ node('master'){
    stage('compile code'){
          sh "${mvnhome}/bin/mvn compile"
    }
+   stage('Build Docker Image'){
+       sh "${mvnhome}/bin/mvn verify"
+   }
+
+   stage('Run Docker Container'){
+          sh 'docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
+      }
 
    stage('Flyway Clean'){
         sh "${mvnhome}/bin/mvn flyway:clean"

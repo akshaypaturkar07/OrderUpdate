@@ -9,17 +9,17 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mydomain</groupId>
-    <artifactId>OrderDetails</artifactId>
+    <artifactId>orderdetails</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>OrderDetails</name>
+    <name>orderdetails</name>
     <description>This is implementation to update order details based on order amount per vendor , if order amount goes
         negative update date to negative value date
     </description>
 
     <properties>
         <java.version>1.8</java.version>
-        <flyway.version>6.4.3</flyway.version>
+        <!-- <flyway.version>6.4.3</flyway.version> -->
         <database.url>jdbc:mysql://localhost:1521/practice</database.url>
         <database.user>root</database.user>
         <database.password>V@ndana160791</database.password>
@@ -82,11 +82,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
-        </dependency>
+        </dependency>-->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -144,10 +144,19 @@
                     </includes>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>${flyway.version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <sqlMigrationSeparator>__</sqlMigrationSeparator>
                     <locations>
@@ -164,8 +173,39 @@
                         <version>5.1.38</version>
                     </dependency>
                 </dependencies>
+
+            </plugin>-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.9</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>orderdetails</repository>
+                    <tag>LATEST</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
             </plugin>
+
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>akshayp07</id>
+            <name>dockerguru</name>
+            <url>https://cloud.docker.com/u/akshayp07/repository/docker/akshayp07/dockerguru</url>
+        </repository>
+    </repositories>
 
 </project>
