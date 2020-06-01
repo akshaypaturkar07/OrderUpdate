@@ -5,9 +5,9 @@ node('master'){
        sh 'java -version'
       sh "${mvnhome}/bin/mvn -version"
       echo $DOCKER_HOME
-      ls $DOCKER_HOME/bin/
-      $DOCKER_HOME/bin/docker images
-      $DOCKER_HOME/bin/docker ps -a
+      sh "ls $DOCKER_HOME/bin/"
+      sh "$DOCKER_HOME/bin/docker images"
+      sh "$DOCKER_HOME/bin/docker ps -a"
 
    }
    stage('Checkout Code'){
