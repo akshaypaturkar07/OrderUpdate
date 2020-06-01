@@ -1,8 +1,10 @@
 node('master'){
    def mvnhome = tool name:'maven-3' , type:'maven'
+   def dockerhome = tool name:'docker-jenkins',type:'docker'
    stage('ENV vars'){
        sh 'java -version'
       sh "${mvnhome}/bin/mvn -version"
+      sh "${dockerhome}/bin/docker -version"
 
    }
    stage('Checkout Code'){
@@ -19,7 +21,7 @@ node('master'){
               sh "${mvnhome}/bin/mvn package  -DskipTests"
    }
    stage('Run Docker Container'){
-          sh 'docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
+          sh '${dockerhome}/bin/docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
       }
 
    stage('Flyway Clean'){
