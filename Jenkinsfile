@@ -16,8 +16,12 @@ node('master'){
          sh "${mvnhome}/bin/mvn compile"
    }
    stage('Build Docker Image'){
-       sh "${mvnhome}/bin/mvn verify"
+       sh "${mvnhome}/bin/mvn verify -DskipTests"
    }
+
+   stage('Build Docker Image'){
+           sh "${mvnhome}/bin/mvn package  -DskipTests"
+      }
 
    stage('Run Docker Container'){
           sh 'docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
@@ -34,9 +38,7 @@ node('master'){
        sh "${mvnhome}/bin/mvn test"
    }
 
-   stage('Build Docker Image'){
-        sh "${mvnhome}/bin/mvn package"
-   }
+
 
    stage('Push Docker Image'){
         sh "${mvnhome}/bin/mvn deploy"
