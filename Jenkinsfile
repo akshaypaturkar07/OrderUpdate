@@ -4,9 +4,7 @@ node('master'){
    stage('ENV vars'){
       sh 'java -version'
       sh "${mvnhome}/bin/mvn -version"
-      sh "ls ${DOCKER_HOME}/bin/"
-      sh "${DOCKER_HOME}/bin/docker images"
-      sh "${DOCKER_HOME}/bin/docker ps -a"
+
 
    }
    stage('Checkout Code'){
@@ -22,10 +20,6 @@ node('master'){
    stage('Build Docker Image'){
               sh "${mvnhome}/bin/mvn package  -DskipTests"
    }
-   stage('Run Docker Container'){
-          sh '${DOCKER_HOME}/bin/docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
-      }
-
    stage('Flyway Clean'){
         sh "${mvnhome}/bin/mvn flyway:clean"
    }
@@ -33,6 +27,9 @@ node('master'){
    stage('Flyway Migrate'){
         sh "${mvnhome}/bin/mvn flyway:migrate"
    }
+   stage('Run Docker Container'){
+             sh '${DOCKER_HOME}/bin/docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
+      }
    stage("Unit Test"){
        sh "${mvnhome}/bin/mvn test"
    }
