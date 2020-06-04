@@ -3,7 +3,9 @@ package com.mydomain.OrderDetails.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mydomain.OrderDetails.dao.OrderDetailsRepository;
+import com.mydomain.OrderDetails.dao.VendorRepository;
 import com.mydomain.OrderDetails.entity.OrderDetails;
+import com.mydomain.OrderDetails.entity.Vendor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,35 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-public class OrderFinderService {
+public class OrderFinderService implements IOrderFinderService {
     Logger logger = LoggerFactory.getLogger(OrderFinderService.class);
+    private OrderDetailsRepository orderDetailsRepository;
+    private VendorRepository vendorRepository;
+    ObjectMapper mapper = new ObjectMapper();
+
 
     @Autowired
-    public OrderFinderService(OrderDetailsRepository orderDetailsRepository) {
+    public OrderFinderService(OrderDetailsRepository orderDetailsRepository, VendorRepository vendorRepository) {
         this.orderDetailsRepository = orderDetailsRepository;
+        this.vendorRepository = vendorRepository;
+
     }
 
-    private OrderDetailsRepository orderDetailsRepository;
+
+    @Override
+    public String getVendors() {
+        List<Vendor> vendors = (List<Vendor>) vendorRepository.findAll();
+        return vendors.isEmpty() ? "No vendor found .. !" : jsonHelper(vendors);
+    }
+
+    @Override
+    public String getOrders() {
+        List<OrderDetails> orderDetails = (List<OrderDetails>) orderDetailsRepository.findAll();
+        return orderDetails.isEmpty() ? "No orderDetails found .. !" : jsonHelper(orderDetails);
+    }
 
 
+    @Override
     public String updateOrders() {
         String recordsUpdated = null;
         List<OrderDetails> orderDetailsList = (List<OrderDetails>) orderDetailsRepository.findAll();
@@ -46,26 +66,14 @@ public class OrderFinderService {
 
             }
         }
-
-
         return recordsUpdated;
-
     }
 
-    private void sortOrderDetails(List<OrderDetails> orderDetailsList) {
-        orderDetailsList.sort((o1, o2) -> {
-            if (o1.getVendor().getVendorid() > o2.getVendor().getVendorid()) {
-                return 1;
-            } else if (o1.getVendor().getVendorid() < o2.getVendor().getVendorid()) {
-                return -1;
-            } else return 0;
-        });
-    }
-
-    private String updateOrderDates(List<OrderDetails> orderDetailsList, int index, Date date) throws JsonProcessingException {
+    @Override
+    public String updateOrderDates(List<OrderDetails> orderDetailsList, int index, Date date) throws JsonProcessingException {
         Calendar c = Calendar.getInstance();
         StringBuilder stringBuffer = new StringBuilder();
-        ObjectMapper mapper = new ObjectMapper();
+
         for (int i = 0; i < index; i++) {
             c.setTime(date);
             c.add(Calendar.DATE, orderDetailsList.get(i).getDueperiod());
@@ -76,7 +84,8 @@ public class OrderFinderService {
             logger.info(stringBuffer.toString());
         }
         return "Success " + stringBuffer.toString();
-
     }
+
+
 }
 
