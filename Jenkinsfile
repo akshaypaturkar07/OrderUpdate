@@ -46,7 +46,7 @@ node('master'){
            stage('Run Application'){
 
            }
-   
+
 
    
    
