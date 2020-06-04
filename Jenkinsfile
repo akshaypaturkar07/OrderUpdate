@@ -1,7 +1,7 @@
 node('master'){
    def mvnhome = tool name:'maven-3' , type:'maven'
    def DOCKER_HOME = tool "docker"
-   withEnv(['mvnhome = tool name:'maven-3' , type:'maven','DOCKER_HOME = tool "docker"','-v /var/run/docker.sock:/var/run/docker.sock']){
+   withEnv(['mvnhome = tool name:"maven-3"' , type:'maven','DOCKER_HOME = tool "docker"','-v /var/run/docker.sock:/var/run/docker.sock']){
         stage('ENV vars'){
         sh """
             java -version
