@@ -243,15 +243,16 @@
             </snapshots>
         </repository>
         <repository>
-            <id>akshayp07</id>
-            <name>dockerguru</name>
-            <url>https://cloud.docker.com/u/akshayp07/repository/docker/akshayp07/dockerguru</url>
-        </repository>
-        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
         </repository>
+        <repository>
+            <id>akshayp07</id>
+            <name>dockerguru</name>
+            <url>https://cloud.docker.com/u/akshayp07/repository/docker/akshayp07/dockerguru</url>
+        </repository>
+
     </repositories>
     <pluginRepositories>
         <pluginRepository>
