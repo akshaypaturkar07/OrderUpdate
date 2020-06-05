@@ -4,11 +4,12 @@ node('master'){
         env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
         stage('ENV vars'){
         sh """
+            whoami
             java -version
             mvn -version
             docker -v
-            sudo docker images
-            sudo docker ps -a
+            docker images
+            docker ps -a
         """
 
            }

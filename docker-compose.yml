@@ -1,5 +1,23 @@
 version: '3'
 services:
+  docker-mysql:
+    restart: always
+    container_name: docker-mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: practice
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "6033:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 5
   app:
     image: orderdetails:LATEST
     restart: on-failure
@@ -10,27 +28,16 @@ services:
     ports:
       - 9080:9080
     environment:
-      - MYSQL_ROOT_HOST=jdbc:mysql://docker-db:3306/practice
+      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/practice?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      WAIT_HOSTS: mysql:3306
     depends_on:
-      - db
-    networks:
-      - mynetwork
-  db:
-    image: mysql:latest
-    volumes:
-    - mysql:/data/db
-    networks:
-      mynetwork:
-        aliases:
-        - "docker-db"
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
+      - docker-mysql
 
-networks:
-  {'mynetwork'}
 volumes:
-  mysql:
+
+  sql:
 
 
 
