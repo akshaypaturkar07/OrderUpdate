@@ -1,10 +1,14 @@
 node('master'){
-   def mvnhome = tool name:'maven-3' , type:'maven'
+        def dockerHome = tool 'mydocker'
+        def mavenHome  = tool 'maven-3'
+        env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
         stage('ENV vars'){
         sh """
             java -version
-            ${mvnhome}/bin/mvn -version
-
+            mvn -version
+            docker -v
+            docker images
+            docker ps -a
         """
 
            }
@@ -12,27 +16,27 @@ node('master'){
                git 'https://github.com/akshaypaturkar07/OrderUpdate.git'
            }
            stage('clean'){
-                sh "${mvnhome}/bin/mvn clean"
+                sh "mvn clean"
            }
 
            stage('compile code'){
                  sh "${mvnhome}/bin/mvn compile"
            }
            stage('Build Docker Image'){
-                      sh "set DOCKER_HOST=unix:///var/run/docker.sock& ${mvnhome}/bin/mvn package  -DskipTests"
+                      sh "mvn package  -DskipTests"
            }
            stage('Flyway Clean'){
-                sh "${mvnhome}/bin/mvn flyway:clean"
+                sh "mvn flyway:clean"
            }
 
            stage('Flyway Migrate'){
-                sh "${mvnhome}/bin/mvn flyway:migrate"
+                sh "mvn flyway:migrate"
            }
            stage('Run Docker Container'){
                      sh 'docker run --publish 8090:9090 --detach --name orderdetails orderdetails:latest'
               }
            stage("Unit Test"){
-               sh "${mvnhome}/bin/mvn test"
+               sh "mvn test"
            }
 
 
