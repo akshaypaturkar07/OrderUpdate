@@ -19,7 +19,7 @@ node('master'){
                  sh "${mvnhome}/bin/mvn compile"
            }
            stage('Build Docker Image'){
-                      sh "set DOCKER_HOST=tcp://localhost:2375& ${mvnhome}/bin/mvn package  -DskipTests"
+                      sh "set DOCKER_HOST=unix:///var/run/docker.sock& ${mvnhome}/bin/mvn package  -DskipTests"
            }
            stage('Flyway Clean'){
                 sh "${mvnhome}/bin/mvn flyway:clean"
