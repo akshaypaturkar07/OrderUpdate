@@ -36,3 +36,7 @@ O/P:
  
  mvn flyway:clean
  baseline, clean, info, migrate, repair, undo, validate 
+ 
+ /usr/local/bin - jenkins install script
+ 
+ unix:///var/run/docker.sock 
