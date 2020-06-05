@@ -10,7 +10,7 @@ services:
     ports:
       - 9080:9080
     environment:
-      - MYSQL_ROOT_HOST=jdbc:mysql://docker-mysql:3306/practice
+      - MYSQL_ROOT_HOST=jdbc:mysql://docker-db:3306/practice
     depends_on:
       - db
     networks:
@@ -18,8 +18,11 @@ services:
   db:
     image: mysql:latest
     volumes:
-      - mysql:/data/db
-    command: --default-authentication-plugin=mysql_native_password
+    - mysql:/data/db
+    networks:
+      mynetwork:
+        aliases:
+        - "docker-db"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password

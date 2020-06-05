@@ -4,9 +4,7 @@ node('master'){
         sh """
             java -version
             ${mvnhome}/bin/mvn -version
-            docker -v
-            docker images
-            docker ps -a
+
         """
 
            }
