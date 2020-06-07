@@ -24,7 +24,7 @@ node('master'){
            stage('Build Docker Image'){
            sh """
                 whoami
-                export DOCKER_HOST=tcp://localhost:2375
+                export DOCKER_HOST=unix:///var/run/docker.sock
                 mvn package  -DskipTests
 
            """
