@@ -5,10 +5,10 @@ services:
     restart: on-failure
     build:
       context: .
-      args:
-        JAR_FILE: target/orderdetails-0.0.1-SNAPSHOT.jar
     ports:
       - 9080:9080
+    networks:
+      - mynetwork
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/practice?autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: user
@@ -23,19 +23,20 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: practice
-      MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       DATABASE_HOST: jdbc:mysql://docker-mysql:3306/practice?autoReconnect=true
     ports:
       - "3306:3306"
+    networks:
+      - mynetwork
     expose:
       - "3306"
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
     healthcheck:
-      test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
+      test: "/usr/bin/mysql --user=user --password=password --execute \"SHOW DATABASES;\""
       interval: 2s
       timeout: 20s
       retries: 5
@@ -44,6 +45,8 @@ services:
 volumes:
 
   sql:
-
+networks:
+  mynetwork:
+    driver: bridge
 
 

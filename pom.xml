@@ -19,10 +19,10 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <!-- <flyway.version>6.4.3</flyway.version> -->
+        <!-- <flyway.version>6.4.3</flyway.version>
         <database.url>jdbc:mysql://localhost:1521/practice</database.url>
         <database.user>root</database.user>
-        <database.password>V@ndana160791</database.password>
+        <database.password>V@ndana160791</database.password> -->
     </properties>
 
     <dependencies>
