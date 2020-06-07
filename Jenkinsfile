@@ -3,12 +3,12 @@ node('master'){
         def mavenHome  = tool 'maven-3'
         env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
         stage('ENV vars'){
-               
         sh """
             whoami
             java -version
             mvn -version
             docker -v
+            export DOCKER_HOST=unix:///var/run/docker.sock
         """
            }
            stage('Checkout Code'){
