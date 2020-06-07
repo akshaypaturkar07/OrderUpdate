@@ -9,10 +9,7 @@ node('master'){
             java -version
             mvn -version
             docker -v
-            echo $DOCKER_HOST
         """
-                 echo $DOCKER_HOST
-
            }
            stage('Checkout Code'){
                git 'https://github.com/akshaypaturkar07/OrderUpdate.git'
