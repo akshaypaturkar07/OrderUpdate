@@ -21,7 +21,7 @@ node('master'){
            }
 
            stage('compile code'){
-                 sh "${mvnhome}/bin/mvn compile"
+                 sh "mvn compile"
            }
            stage('Build Docker Image'){
                       sh "mvn package  -DskipTests"
@@ -43,7 +43,7 @@ node('master'){
 
 
            stage('Push Docker Image'){
-                sh "${mvnhome}/bin/mvn deploy"
+                sh "mvn deploy"
            }
 
            stage('Run Application'){
