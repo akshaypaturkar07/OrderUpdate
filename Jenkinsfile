@@ -8,8 +8,6 @@ node('master'){
             java -version
             mvn -version
             docker -v
-            docker images
-            docker ps -a
         """
 
            }
