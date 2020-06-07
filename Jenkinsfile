@@ -22,7 +22,13 @@ node('master'){
                  sh "mvn compile"
            }
            stage('Build Docker Image'){
-                      sh "mvn package  -DskipTests"
+           sh """
+                whoami
+                export DOCKER_HOST=tcp://localhost:2375
+                mvn package  -DskipTests
+
+           """
+
            }
            stage('Flyway Clean'){
                 sh "mvn flyway:clean"
