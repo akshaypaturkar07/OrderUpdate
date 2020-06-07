@@ -9,6 +9,9 @@ node('master'){
             mvn -version
             docker -v
             export DOCKER_HOST=unix:///var/run/docker.sock
+            export DOCKER_OPTS=' -G jenkins'
+            echo $PATH
+            docker images
         """
            }
            stage('Checkout Code'){
