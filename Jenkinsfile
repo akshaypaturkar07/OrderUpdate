@@ -25,6 +25,7 @@ node('master'){
            sh """
                 whoami
                 export DOCKER_HOST=unix:///var/run/docker.sock
+                export DOCKER_OPTS=' -G jenkins'
                 mvn package  -DskipTests
 
            """
