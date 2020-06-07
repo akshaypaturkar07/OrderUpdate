@@ -10,6 +10,7 @@ node('master'){
             docker -v
             export DOCKER_HOST=unix:///var/run/docker.sock
             export DOCKER_OPTS=' -G jenkins'
+            export DOCKER_SOCKET=/var/run/docker.sock
             echo $PATH
             docker images
         """
