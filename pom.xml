@@ -221,6 +221,32 @@
 
             </plugin>-->
             <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <configuration>
+                    <javaVersion>1.8</javaVersion>
+                    <javaWebContainer>tomcat 8.5</javaWebContainer>
+                    <!-- <linuxRuntime>tomcat 8.5-jre8</linuxRuntime> -->
+                    <authentication>
+                        <serverId>azure-auth</serverId>
+                    </authentication>
+                    <appName>orderupdate</appName>
+                    <resourceGroup>orderupdategroup</resourceGroup>
+                    <appServicePlanName>springbootplan</appServicePlanName>
+                    <!-- <deploymentType>ftp</deploymentType> //enable this for FTP based deployment
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/target</directory>
+                            <targetPath>webapps</targetPath>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </resource>
+                    </resources>  -->
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-maven-plugin</artifactId>
                 <version>0.2</version>

@@ -1,0 +1,30 @@
+# Deploy app on AKS
+
+ Id CommandLine
+  -- -----------
+   az login
+   az webapp delete --name orderupdate --resource-group orderupdategroup
+   az acr create --name cloudgururegistry --resource-group orderupdategroup --sku FREE --admin-enabled=true
+   az acr create --name cloudgururegistry --resource-group orderupdategroup --sku Basic --admin-enabled=true
+   az acr credential show --name cloudgururegistry
+   docker login cloudgururegistry.azurecr.io --username cloudgururegistry
+   docker login cloudgururegistry.azurecr.io --username cloudgururegistry
+   docker images
+   docker tag orderdetails cloudgururegistry.azurecr.io/orderdetails:v1.0
+   docker tag a85b93bfef7c cloudgururegistry.azurecr.io/orderdetails:v1.0
+   docker images
+   docker push cloudgururegistry.azurecr.io/orderdetails:v1.0
+   az acr repository list -n  cloudgururegistry.azurecr.io
+   az acr repository list -n cloudgururegistry.azurecr.io
+   az acr credential show --name cloudgururegistry.azurecr.io
+   az acr credential show --name cloudgururegistry
+   az acr repository list -n cloudgururegistry
+   az appservice plan create --name springbootplan --resource-group orderupdategroup --sku FREE
+   az webapp create --resource-group orderupdategroup --plan springbootplan --name orderupdate --deployment-container-image-name cloudgururegistry.azurecr.io/orderdetails:v1.0
+   az webapp config container set --name orderupdate --resource-group orderupdategroup --docker-custom-image-name cloudgururegistry.azurecr.io/orderdetails:v1.0 --docker-registry-serv...
+   az webapp log config --name orderupdate --resource-group orderupdategroup  --docker-container-logging filesystem
+   az webapp log tail --name orderupdate --resource-group orderupdategroup
+
+
+  # Run using maven :
+   mvn clean package -DskipTests azure-webapp:deploy
