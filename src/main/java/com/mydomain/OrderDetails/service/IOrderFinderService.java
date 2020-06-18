@@ -2,6 +2,7 @@ package com.mydomain.OrderDetails.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mydomain.OrderDetails.entity.OrderDetails;
 
 import java.sql.Date;
@@ -31,6 +32,7 @@ public interface IOrderFinderService {
 
     default String jsonHelper(List<? extends Object> objects) {
         StringBuilder stringBuffer = new StringBuilder();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objects.forEach(o -> {
             try {
                 stringBuffer.append(mapper.writeValueAsString(o));
