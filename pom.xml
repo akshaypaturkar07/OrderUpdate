@@ -20,6 +20,8 @@
     <properties>
         <java.version>1.8</java.version>
         <azure.version>2.3.1</azure.version>
+        <azure.containerRegistry>cloudguru07</azure.containerRegistry>
+        <docker.image.prefix>${azure.containerRegistry}.azurecr.io</docker.image.prefix>
         <!-- <flyway.version>6.4.3</flyway.version>
         <database.url>jdbc:mysql://localhost:1521/practice</database.url>
         <database.user>root</database.user>
@@ -51,22 +53,51 @@
             <optional>true</optional>
         </dependency>
 
-       <!-- <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-active-directory-spring-boot-starter</artifactId>
-            <version>${azure.version}</version>
-        </dependency>
+        <!-- <dependency>
+             <groupId>com.microsoft.azure</groupId>
+             <artifactId>azure-active-directory-spring-boot-starter</artifactId>
+             <version>${azure.version}</version>
+         </dependency>
+         <dependency>
+             <groupId>com.microsoft.azure</groupId>
+             <artifactId>azure-keyvault-secrets-spring-boot-starter</artifactId>
+             <version>${azure.version}</version>
+         </dependency>
+         <dependency>
+             <groupId>com.microsoft.azure</groupId>
+             <artifactId>azure-spring-boot-starter</artifactId>
+             <version>${azure.version}</version>
+         </dependency>
+ -->
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-keyvault-secrets-spring-boot-starter</artifactId>
-            <version>${azure.version}</version>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.3.RELEASE</version>
         </dependency>
+
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-spring-boot-starter</artifactId>
-            <version>${azure.version}</version>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <version>3.0.3.RELEASE</version>
         </dependency>
--->
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <version>2.3.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>2.3.3.RELEASE</version>
+        </dependency>-->
+
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -84,7 +115,6 @@
             <artifactId>java-jwt</artifactId>
             <version>3.8.3</version>
         </dependency>
-
 
 
         <dependency>
@@ -225,15 +255,40 @@
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>1.9.1</version>
                 <configuration>
+
+                    <!--  <javaVersion>, <linuxRuntime>and <containerSettings> should not be set at the same time
                     <javaVersion>1.8</javaVersion>
+                    -->
                     <javaWebContainer>tomcat 8.5</javaWebContainer>
                     <!-- <linuxRuntime>tomcat 8.5-jre8</linuxRuntime> -->
                     <authentication>
                         <serverId>azure-auth</serverId>
                     </authentication>
-                    <appName>orderupdate</appName>
-                    <resourceGroup>orderupdategroup</resourceGroup>
-                    <appServicePlanName>springbootplan</appServicePlanName>
+                    <appName>orderupdatev1</appName>
+                    <resourceGroup>appgroup</resourceGroup>
+                    <appServicePlanName>orderupdate</appServicePlanName>
+
+                    <containerSettings>
+                        <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                        <registryUrl>https://${docker.image.prefix}</registryUrl>
+                        <serverId>${azure.containerRegistry}</serverId>
+                    </containerSettings>
+
+                    <!-- enable App settings section for MySQL in App settings
+                    <appSettings>
+                        <property>
+                            <name>spring.datasource.url</name>
+                            <value>jdbc:mysql://127.0.0.1:55738/localdb</value>
+                        </property>
+                        <property>
+                            <name>spring.datasource.username</name>
+                            <value>uuuuuu</value>
+                        </property>
+                        <property>
+                            <name>spring.datasource.password</name>
+                            <value>pppppp</value>
+                        </property>
+                    </appSettings>  -->
                     <!-- <deploymentType>ftp</deploymentType> //enable this for FTP based deployment
                     <resources>
                         <resource>
@@ -259,7 +314,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.9</version>
@@ -280,8 +335,25 @@
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
+            </plugin>-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <registryUrl>https://${docker.image.prefix}</registryUrl>
+                    <serverId>${azure.containerRegistry}</serverId>
+                    <dockerDirectory>.</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
-
         </plugins>
     </build>
 
