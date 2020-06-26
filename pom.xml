@@ -22,7 +22,7 @@
         <azure.version>2.3.1</azure.version>
         <azure.containerRegistry>cloudguru07</azure.containerRegistry>
         <docker.image.prefix>${azure.containerRegistry}.azurecr.io</docker.image.prefix>
-        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
         <!-- <flyway.version>6.4.3</flyway.version>
         <database.url>jdbc:mysql://localhost:1521/practice</database.url>
         <database.user>root</database.user>
@@ -62,7 +62,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
         </dependency>
 
         <dependency>
@@ -75,7 +79,6 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>2.2.0.RELEASE</version>
         </dependency>
-
 
 
         <dependency>

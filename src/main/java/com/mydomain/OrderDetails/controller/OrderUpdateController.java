@@ -1,7 +1,7 @@
 package com.mydomain.OrderDetails.controller;
 
 import com.mydomain.OrderDetails.service.IOrderFinderService;
-import com.mydomain.OrderDetails.service.OrderFinderService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,16 @@ public class OrderUpdateController {
 
 
     @GetMapping("/updateOrders")
+    @HystrixCommand(fallbackMethod = "getFallbackUpateOrders")
     public String updateOrders() {
         String result = orderFinderService.updateOrders();
         logger.info("Orders update successfully .. !");
         logger.info(result);
         return "Order Updated Successfully .. ! ";
+    }
+
+    public String getFallbackUpateOrders() {
+        return "Order Update is not availbale now  .. ! ";
     }
 
     @GetMapping("/vendors")
