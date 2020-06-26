@@ -22,11 +22,24 @@
         <azure.version>2.3.1</azure.version>
         <azure.containerRegistry>cloudguru07</azure.containerRegistry>
         <docker.image.prefix>${azure.containerRegistry}.azurecr.io</docker.image.prefix>
+        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <!-- <flyway.version>6.4.3</flyway.version>
         <database.url>jdbc:mysql://localhost:1521/practice</database.url>
         <database.user>root</database.user>
         <database.password>V@ndana160791</database.password> -->
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -45,6 +58,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -313,6 +345,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <outputFileName>openapi.json</outputFileName>
+                    <outputDir>${project.build.directory}/openapi-spec</outputDir>
+                </configuration>
             </plugin>
             <!--<plugin>
                 <groupId>com.spotify</groupId>
